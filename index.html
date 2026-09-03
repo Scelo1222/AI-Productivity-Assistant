@@ -1,81 +1,102 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudySync AI · Student Productivity Dashboard</title>
-  <meta name="description" content="StudySync AI is a student productivity dashboard with an AI email writer, notes summarizer, study planner, research assistant and AI tutor." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="./styles.css" />
+  <title>StudySync · your study wingman</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="logo"><i class="fa-solid fa-bolt"></i></div>
-        <div>
-          <span>StudySync AI</span>
-          <small>your study wingman</small>
-        </div>
+
+<div class="app-container">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div>
+        <span>StudySync <small id="brandTag">your study wingman</small></span>
       </div>
-
-      <nav class="nav" id="nav">
-        <button class="nav-item active" data-page="dashboard"><i class="fa-solid fa-grip"></i> Dashboard</button>
-        <button class="nav-item" data-page="email"><i class="fa-solid fa-envelope"></i> Email Writer</button>
-        <button class="nav-item" data-page="notes"><i class="fa-solid fa-file-lines"></i> Notes Summarizer</button>
-        <button class="nav-item" data-page="planner"><i class="fa-solid fa-calendar-check"></i> Study Planner</button>
-        <button class="nav-item" data-page="research"><i class="fa-solid fa-book-open"></i> Research Helper</button>
-        <button class="nav-item" data-page="tutor"><i class="fa-solid fa-comment-dots"></i> AI Tutor</button>
-      </nav>
-
-      <div class="streak">
-        <b id="streakDays">1 day</b>
-        study streak — keep it going 🔥
-      </div>
-
-      <button class="disclaimer-badge" id="openDisclaimer">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span><b>Responsible AI:</b> outputs are drafts, not facts. Always check before you submit.</span>
-      </button>
-    </aside>
-
-    <div class="scrim" id="scrim"></div>
-
-    <main class="main">
-      <header class="topbar">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open navigation"><i class="fa-solid fa-bars"></i></button>
-          <div>
-            <h1 id="pageTitle">Dashboard</h1>
-            <p id="pageSub">Everything in one place, no chaos.</p>
-          </div>
-        </div>
-        <div class="topbar-actions">
-          <span class="pill"><span class="dot"></span> AI ready</span>
-          <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
-        </div>
-      </header>
-
-      <div id="view"></div>
-    </main>
-  </div>
-
-  <div class="toast" id="toast">Done</div>
-
-  <div class="modal" id="disclaimerModal">
-    <div class="modal-box">
-      <h3><i class="fa-solid fa-triangle-exclamation"></i> Responsible AI use</h3>
-      <ul>
-        <li>StudySync AI produces <b>drafts and study aids</b>, never finished submissions.</li>
-        <li>Always fact-check summaries, research points and citations yourself.</li>
-        <li>Submitting AI text as your own work may breach your school's academic-integrity policy.</li>
-        <li>Everything you type stays in your browser (localStorage) — nothing is uploaded.</li>
-        <li>AI is not a substitute for a lecturer, doctor or counsellor.</li>
-      </ul>
-      <button class="btn btn-primary" id="closeDisclaimer">I understand</button>
     </div>
-  </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-feature="dashboard"><i class="fas fa-th-large"></i> Dashboard</button>
+      <button class="nav-item" data-feature="email"><i class="fas fa-envelope"></i> Smart Email</button>
+      <button class="nav-item" data-feature="meeting"><i class="fas fa-file-alt"></i> Notes Summarizer</button>
+      <button class="nav-item" data-feature="task"><i class="fas fa-tasks"></i> Study Planner</button>
+      <button class="nav-item" data-feature="research"><i class="fas fa-book-open"></i> Research</button>
+      <button class="nav-item" data-feature="chatbot"><i class="fas fa-comment-dots"></i> AI Tutor</button>
+    </nav>
+    <div class="mood-box">
+      <span class="mood-label">vibe check — how's today?</span>
+      <div class="moods" id="moodRow">
+        <button data-mood="fired up">fired up</button>
+        <button data-mood="okay-ish">okay-ish</button>
+        <button data-mood="running on caffeine">caffeinated</button>
+        <button data-mood="doomscrolling">doomscrolling</button>
+        <button data-mood="main character">main character</button>
+      </div>
+    </div>
+    <div class="sidebar-profile" onclick="openProfileModal()">
+      <div class="avatar-small" id="sidebarAvatar">S</div>
+      <div class="profile-info">
+        <div class="name" id="sidebarName">friend</div>
+        <div class="role" id="sidebarMood">vibes: unreported</div>
+      </div>
+      <i class="fas fa-pen edit-icon"></i>
+    </div>
+    <div class="sidebar-footer">
+      <div class="disclaimer-badge" onclick="showDisclaimer()">
+        <i class="fas fa-hand-sparkles"></i>
+        <div><strong>Real talk:</strong> everything here is a first draft. Read it, fix it, make it yours.</div>
+      </div>
+      <div style="font-size:12px; color:var(--gray);">v2.1 · made with too much coffee</div>
+    </div>
+  </aside>
 
-  <script src="./app.js"></script>
+  <!-- ===== MAIN ===== -->
+  <main class="main-content" id="mainContent">
+    <div class="page-header">
+      <div class="greeting">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+          <h1 id="greetingMessage">Hey there, <span class="highlight">friend</span></h1>
+        </div>
+        <p id="greetingSubtext">Let's make today productive — without the burnout.</p>
+      </div>
+      <div class="header-actions">
+        <div class="status-badge"><span class="dot"></span> awake and ready</div>
+        <div class="user-avatar" id="headerAvatar" onclick="openProfileModal()">S</div>
+      </div>
+    </div>
+    <div id="dynamicPanel"></div>
+  </main>
+</div>
+
+<!-- ===== MODALS ===== -->
+<div class="modal-overlay" id="profileModal" onclick="if(event.target===this) closeProfileModal()">
+  <div class="modal-box">
+    <div class="modal-icon"><i class="fas fa-user"></i></div>
+    <h3>Before anything else —</h3>
+    <p class="subtitle">What should I call you? (So I can hype you up properly.)</p>
+    <label for="userNameInput">Your name or nickname</label>
+    <input type="text" id="userNameInput" placeholder="e.g., Frank, Maria, or Alex" maxlength="30" autofocus onkeypress="if(event.key==='Enter') saveProfile()">
+    <button class="btn-primary" onclick="saveProfile()"><i class="fas fa-check"></i> That's me!</button>
+    <button class="btn-secondary" onclick="skipProfile()">Skip for now</button>
+  </div>
+</div>
+
+<div class="modal-overlay disclaimer" id="disclaimerModal" onclick="if(event.target===this) hideDisclaimer()">
+  <div class="modal-box">
+    <h3><i class="fas fa-hand-sparkles" style="color:var(--accent);"></i> Real talk, before we start</h3>
+    <p><strong>These are drafts, not gospel.</strong> StudySync uses simulated AI to help you study smarter. Always review and verify outputs before submitting academic work.</p>
+    <p><strong>Your privacy:</strong> your name, mood and stats live in your browser only. Nothing is uploaded or shared.</p>
+    <p><strong>Academic integrity:</strong> use this as scaffolding — the thinking, and the final words, should be yours.</p>
+    <button class="btn-primary" onclick="hideDisclaimer()">Got it, let's go</button>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg">nice.</span></div>
+
+<script src="script.js"></script>
 </body>
 </html>

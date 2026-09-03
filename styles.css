@@ -79,10 +79,11 @@ body {
 .moods { display: flex; gap: 5px; }
 .moods button {
   flex: 1; border: 2px solid transparent; background: var(--white); border-radius: 12px;
-  font-size: 17px; padding: 6px 0; cursor: pointer; transition: var(--transition); filter: grayscale(0.45);
+  font-size: 11px; padding: 6px 0; cursor: pointer; transition: var(--transition); 
+  font-weight: 500; color: var(--gray); text-transform: lowercase;
 }
-.moods button:hover { transform: translateY(-2px) scale(1.1); filter: none; }
-.moods button.picked { border-color: var(--primary); background: rgba(74, 107, 61, 0.08); filter: none; transform: scale(1.08); }
+.moods button:hover { transform: translateY(-2px) scale(1.05); background: var(--cream-dark); }
+.moods button.picked { border-color: var(--primary); background: rgba(74, 107, 61, 0.08); transform: scale(1.06); color: var(--dark); }
 
 .sidebar-profile {
   display: flex; align-items: center; gap: 12px;
