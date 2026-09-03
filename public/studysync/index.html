@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudySync AI · Student Productivity Dashboard</title>
+  <meta name="description" content="StudySync AI is a student productivity dashboard with an AI email writer, notes summarizer, study planner, research assistant and AI tutor." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-bolt"></i></div>
+        <div>
+          <span>StudySync AI</span>
+          <small>your study wingman</small>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <button class="nav-item active" data-page="dashboard"><i class="fa-solid fa-grip"></i> Dashboard</button>
+        <button class="nav-item" data-page="email"><i class="fa-solid fa-envelope"></i> Email Writer</button>
+        <button class="nav-item" data-page="notes"><i class="fa-solid fa-file-lines"></i> Notes Summarizer</button>
+        <button class="nav-item" data-page="planner"><i class="fa-solid fa-calendar-check"></i> Study Planner</button>
+        <button class="nav-item" data-page="research"><i class="fa-solid fa-book-open"></i> Research Helper</button>
+        <button class="nav-item" data-page="tutor"><i class="fa-solid fa-comment-dots"></i> AI Tutor</button>
+      </nav>
+
+      <div class="streak">
+        <b id="streakDays">1 day</b>
+        study streak — keep it going 🔥
+      </div>
+
+      <button class="disclaimer-badge" id="openDisclaimer">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span><b>Responsible AI:</b> outputs are drafts, not facts. Always check before you submit.</span>
+      </button>
+    </aside>
+
+    <div class="scrim" id="scrim"></div>
+
+    <main class="main">
+      <header class="topbar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open navigation"><i class="fa-solid fa-bars"></i></button>
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p id="pageSub">Everything in one place, no chaos.</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <span class="pill"><span class="dot"></span> AI ready</span>
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+        </div>
+      </header>
+
+      <div id="view"></div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast">Done</div>
+
+  <div class="modal" id="disclaimerModal">
+    <div class="modal-box">
+      <h3><i class="fa-solid fa-triangle-exclamation"></i> Responsible AI use</h3>
+      <ul>
+        <li>StudySync AI produces <b>drafts and study aids</b>, never finished submissions.</li>
+        <li>Always fact-check summaries, research points and citations yourself.</li>
+        <li>Submitting AI text as your own work may breach your school's academic-integrity policy.</li>
+        <li>Everything you type stays in your browser (localStorage) — nothing is uploaded.</li>
+        <li>AI is not a substitute for a lecturer, doctor or counsellor.</li>
+      </ul>
+      <button class="btn btn-primary" id="closeDisclaimer">I understand</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
