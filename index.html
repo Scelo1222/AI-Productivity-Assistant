@@ -1,102 +1,2403 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudySync · your study wingman</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>StudySync · your study wingman</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #4A6B3D;
+            --primary-dark: #3A562F;
+            --secondary: #6B8F5E;
+            --secondary-dark: #557348;
+            --accent: #B8A97A;
+            --cream: #F5F2EB;
+            --dark: #2D3A24;
+            --gray: #6B6560;
+            --light-gray: #D8D2C4;
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(45, 58, 36, 0.08);
+            --shadow-hover: 0 8px 32px rgba(45, 58, 36, 0.14);
+            --radius: 20px;
+            --radius-sm: 10px;
+            --transition: all 0.25s ease;
+        }
+        html,
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            min-height: 100vh;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        /* ===== APP CONTAINER ===== */
+        .app-container {
+            max-width: 1440px;
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            overflow: hidden;
+            min-height: 92vh;
+            max-height: 98vh;
+            position: relative;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 260px;
+            background: var(--cream);
+            padding: 24px 18px;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid rgba(184, 169, 122, 0.2);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            height: 100%;
+            max-height: 98vh;
+        }
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-left: 2px;
+        }
+        .sidebar-brand .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(74, 107, 61, 0.3);
+        }
+        .sidebar-brand span {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--dark);
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+        .sidebar-brand span small {
+            font-weight: 400;
+            font-size: 11px;
+            color: var(--gray);
+            display: block;
+            letter-spacing: 0.2px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            color: var(--gray);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .nav-item:hover {
+            background: rgba(74, 107, 61, 0.08);
+            color: var(--dark);
+        }
+        .nav-item:hover i {
+            color: var(--primary);
+        }
+        .nav-item.active {
+            background: rgba(74, 107, 61, 0.12);
+            color: var(--dark);
+            font-weight: 600;
+        }
+        .nav-item.active i {
+            color: var(--primary);
+        }
+
+        /* ===== MOOD ===== */
+        .mood-box {
+            padding: 6px 4px 12px;
+        }
+        .mood-label {
+            display: block;
+            font-size: 11px;
+            color: var(--gray);
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .moods {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .moods button {
+            flex: 1;
+            min-width: 40px;
+            border: 2px solid transparent;
+            background: var(--white);
+            border-radius: 20px;
+            font-size: 10px;
+            padding: 4px 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--gray);
+            text-transform: lowercase;
+            white-space: nowrap;
+        }
+        .moods button:hover {
+            background: var(--cream-dark);
+            transform: translateY(-1px);
+        }
+        .moods button.picked {
+            border-color: var(--primary);
+            background: rgba(74, 107, 61, 0.1);
+            color: var(--dark);
+        }
+
+        /* ===== SIDEBAR PROFILE ===== */
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            margin-top: 4px;
+        }
+        .sidebar-profile:hover {
+            border-color: var(--light-gray);
+        }
+        .sidebar-profile .avatar-small {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .sidebar-profile .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar-profile .profile-info .name {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-profile .profile-info .role {
+            font-size: 11px;
+            color: var(--gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-profile .edit-icon {
+            color: var(--gray);
+            font-size: 13px;
+            opacity: 0.5;
+            transition: var(--transition);
+        }
+        .sidebar-profile:hover .edit-icon {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        /* ===== SIDEBAR FOOTER ===== */
+        .sidebar-footer {
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 2px solid rgba(184, 169, 122, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .disclaimer-badge {
+            background: var(--white);
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--gray);
+            font-size: 11px;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        .disclaimer-badge:hover {
+            border-color: var(--light-gray);
+        }
+        .disclaimer-badge i {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+        .disclaimer-badge strong {
+            color: var(--dark);
+        }
+        .sidebar-footer .version {
+            font-size: 11px;
+            color: var(--gray);
+            text-align: center;
+            padding: 2px 0;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            background: var(--white);
+            padding: 20px 28px 28px;
+            overflow-y: auto;
+            height: 100%;
+            max-height: 98vh;
+            min-width: 0;
+        }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .page-header .greeting h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        .page-header .greeting h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-header .greeting p {
+            color: var(--gray);
+            font-size: 13px;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(107, 143, 94, 0.12);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--secondary-dark);
+            white-space: nowrap;
+        }
+        .status-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--dark);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--cream);
+            padding: 16px 16px 14px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            cursor: default;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        .stat-card .label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 2px;
+        }
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+        .stat-card .value.primary {
+            color: var(--primary);
+        }
+        .stat-card .value.secondary {
+            color: var(--secondary-dark);
+        }
+        .stat-card .value.accent {
+            color: var(--accent);
+        }
+
+        /* ===== FEATURE GRID ===== */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .feature-card {
+            background: var(--cream);
+            padding: 20px 18px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        .feature-card .icon-bg {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        .feature-card .icon-bg.primary {
+            background: rgba(74, 107, 61, 0.15);
+            color: var(--primary);
+        }
+        .feature-card .icon-bg.secondary {
+            background: rgba(107, 143, 94, 0.15);
+            color: var(--secondary-dark);
+        }
+        .feature-card .icon-bg.accent {
+            background: rgba(184, 169, 122, 0.15);
+            color: var(--accent);
+        }
+        .feature-card .icon-bg.purple {
+            background: rgba(139, 92, 246, 0.15);
+            color: #8B5CF6;
+        }
+        .feature-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        .feature-card p {
+            color: var(--gray);
+            font-size: 13px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        .feature-card .btn-outline {
+            background: transparent;
+            border: 2px solid var(--light-gray);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dark);
+            transition: var(--transition);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .feature-card .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(74, 107, 61, 0.08);
+        }
+
+        /* ===== PEP ===== */
+        .pep {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--gray);
+            font-style: italic;
+            animation: fadeIn 0.4s ease;
+            padding: 8px 0;
+        }
+
+        /* ===== ACTIVITY ===== */
+        .activity-panel {
+            background: var(--cream);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+        }
+        .activity-panel .panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(184, 169, 122, 0.2);
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-item .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .activity-item .dot.primary {
+            background: var(--primary);
+        }
+        .activity-item .dot.secondary {
+            background: var(--secondary);
+        }
+        .activity-item .dot.accent {
+            background: var(--accent);
+        }
+        .activity-item .text {
+            flex: 1;
+            font-size: 13px;
+            color: var(--dark);
+        }
+        .activity-item .time {
+            font-size: 11px;
+            color: var(--gray);
+            flex-shrink: 0;
+        }
+
+        /* ===== FEATURE PANEL ===== */
+        .feature-panel {
+            background: var(--cream);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .panel-header h2 {
+            font-size: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel-header h2 i {
+            color: var(--primary);
+        }
+        .panel-sub {
+            font-size: 12px;
+            color: var(--gray);
+            font-style: italic;
+            margin: -8px 0 14px;
+        }
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .input-area label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 13px;
+        }
+        .input-area textarea,
+        .input-area input,
+        .input-area select {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--light-gray);
+            font-size: 14px;
+            background: var(--white);
+            transition: var(--transition);
+            width: 100%;
+            resize: vertical;
+            font-family: inherit;
+            color: var(--dark);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .input-area textarea:focus,
+        .input-area input:focus,
+        .input-area select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 61, 0.1);
+        }
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 12px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(74, 107, 61, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 107, 61, 0.35);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-secondary {
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: rgba(74, 107, 61, 0.05);
+        }
+        .btn-secondary.active {
+            border-color: var(--primary);
+            background: rgba(74, 107, 61, 0.1);
+        }
+
+        /* ===== OUTPUT ===== */
+        .output-box {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            border: 2px solid var(--light-gray);
+            margin-top: 12px;
+            line-height: 1.6;
+            min-height: 100px;
+            color: var(--dark);
+            font-size: 14px;
+            transition: var(--transition);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .output-box:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 61, 0.08);
+        }
+        .output-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== REAL TALK ===== */
+        .real-talk {
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            line-height: 1.5;
+            background: rgba(184, 169, 122, 0.12);
+            color: var(--dark);
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+        .real-talk i {
+            color: var(--accent);
+            margin-top: 1px;
+        }
+
+        /* ===== MEETING OUTPUTS ===== */
+        .meeting-outputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .meeting-output-card {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            border: 2px solid var(--light-gray);
+        }
+        .meeting-output-card h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .meeting-output-card h4 i {
+            color: var(--primary);
+        }
+        .meeting-output-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .meeting-output-card li {
+            font-size: 13px;
+            color: var(--dark);
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(184, 169, 122, 0.15);
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .meeting-output-card li:last-child {
+            border-bottom: none;
+        }
+        .meeting-output-card li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* ===== CHAT ===== */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 420px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--light-gray);
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .chat-msg {
+            display: flex;
+            gap: 8px;
+            max-width: 88%;
+            animation: fadeIn 0.3s ease;
+        }
+        .chat-msg.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        .chat-msg .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+        .chat-msg.bot .avatar {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+        .chat-msg.user .avatar {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        }
+        .chat-msg .bubble {
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+        .chat-msg.bot .bubble {
+            background: var(--cream);
+            color: var(--dark);
+            border-top-left-radius: 4px;
+        }
+        .chat-msg.user .bubble {
+            background: var(--primary);
+            color: white;
+            border-top-right-radius: 4px;
+        }
+        .chat-input-area {
+            padding: 12px 16px;
+            background: var(--white);
+            border-top: 2px solid var(--light-gray);
+            display: flex;
+            gap: 8px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 40px;
+            border: 2px solid var(--light-gray);
+            font-size: 13px;
+            transition: var(--transition);
+            min-width: 0;
+        }
+        .chat-input-area input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        .chat-input-area button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .chat-input-area button:hover {
+            transform: scale(1.06);
+        }
+        .chat-quick-actions {
+            display: flex;
+            gap: 6px;
+            padding: 8px 12px;
+            background: var(--cream);
+            border-top: 2px solid var(--light-gray);
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+        .chat-quick-actions button {
+            white-space: nowrap;
+            padding: 4px 12px;
+            border-radius: 40px;
+            border: 2px solid var(--light-gray);
+            background: var(--white);
+            color: var(--gray);
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .chat-quick-actions button:hover {
+            border-color: var(--primary);
+            color: var(--dark);
+        }
+
+        /* ===== TYPING ===== */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 12px;
+        }
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        @keyframes bounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== LOADING ===== */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--light-gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: var(--gray);
+            text-align: center;
+        }
+        .empty-state i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 90%;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast i {
+            color: var(--secondary);
+        }
+
+        /* ===== MODALS ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(45, 58, 36, 0.5);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal-box {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow-hover);
+            animation: fadeIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-box .modal-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            margin: 0 auto 12px;
+            box-shadow: 0 6px 20px rgba(74, 107, 61, 0.3);
+        }
+        .modal-box h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .modal-box .subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+        .modal-box label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 13px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--light-gray);
+            font-size: 15px;
+            transition: var(--transition);
+            font-family: inherit;
+            margin-bottom: 16px;
+        }
+        .modal-box input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 61, 0.1);
+        }
+        .modal-box .btn-primary {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+            font-size: 15px;
+        }
+        .modal-box .btn-secondary {
+            width: 100%;
+            justify-content: center;
+            margin-top: 8px;
+            background: transparent;
+        }
+
+        .modal-overlay.disclaimer .modal-box {
+            max-width: 500px;
+        }
+        .modal-overlay.disclaimer .modal-box h3 {
+            font-size: 19px;
+        }
+        .modal-overlay.disclaimer .modal-box p {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        /* ===== CONFETTI ===== */
+        .confetti {
+            position: fixed;
+            top: -20px;
+            z-index: 2000;
+            pointer-events: none;
+            animation: fall linear forwards;
+            font-size: 16px;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* ===== TWO COLUMN LAYOUTS ===== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 20px;
+        }
+        .two-col-equal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+            .two-col-equal {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .feature-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            .app-container {
+                flex-direction: column;
+                border-radius: 16px;
+                min-height: auto;
+                max-height: none;
+                height: auto;
+            }
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 800;
+                transform: translateX(-100%);
+                box-shadow: 10px 0 40px rgba(0, 0, 0, 0.1);
+                width: 280px;
+                max-height: 100vh;
+                border-radius: 0;
+                padding: 20px 16px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .main-content {
+                padding: 16px 16px 20px;
+                max-height: none;
+                height: auto;
+                min-height: 90vh;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .page-header .greeting h1 {
+                font-size: 20px;
+            }
+            .meeting-outputs {
+                grid-template-columns: 1fr;
+            }
+            .header-actions .status-badge {
+                display: none;
+            }
+            .modal-box {
+                padding: 24px 20px;
+            }
+            .chat-container {
+                height: 350px;
+            }
+            .two-col,
+            .two-col-equal {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .sidebar-footer .version {
+                font-size: 10px;
+            }
+            .moods button {
+                font-size: 9px;
+                padding: 3px 5px;
+                min-width: 30px;
+            }
+            .feature-panel {
+                padding: 16px;
+            }
+            .panel-header h2 {
+                font-size: 18px;
+            }
+            .stat-card .value {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .stat-card {
+                padding: 12px 12px 10px;
+            }
+            .stat-card .value {
+                font-size: 18px;
+            }
+            .action-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-primary,
+            .btn-secondary {
+                justify-content: center;
+                width: 100%;
+            }
+            .feature-card {
+                padding: 16px 14px;
+            }
+            .output-box {
+                padding: 12px 14px;
+                font-size: 13px;
+                min-height: 80px;
+            }
+            .chat-msg {
+                max-width: 95%;
+            }
+            .chat-msg .bubble {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            .modal-box {
+                padding: 20px 16px;
+            }
+            .modal-box h3 {
+                font-size: 19px;
+            }
+            .toast {
+                font-size: 12px;
+                padding: 10px 16px;
+                bottom: 12px;
+                right: 12px;
+            }
+            .sidebar-profile .profile-info .role {
+                font-size: 10px;
+            }
+            .sidebar-profile .profile-info .name {
+                font-size: 12px;
+            }
+            .sidebar-brand span {
+                font-size: 18px;
+            }
+            .page-header .greeting p {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .moods {
+                gap: 3px;
+            }
+            .moods button {
+                font-size: 8px;
+                padding: 2px 4px;
+                min-width: 28px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        .main-content::-webkit-scrollbar,
+        .sidebar::-webkit-scrollbar,
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .main-content::-webkit-scrollbar-track,
+        .sidebar::-webkit-scrollbar-track,
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+        .main-content::-webkit-scrollbar-thumb,
+        .sidebar::-webkit-scrollbar-thumb,
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--light-gray);
+            border-radius: 4px;
+        }
+        .main-content::-webkit-scrollbar-thumb:hover,
+        .sidebar::-webkit-scrollbar-thumb:hover,
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* ===== UTILITY ===== */
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .gap-sm {
+            gap: 8px;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .mb-12 {
+            margin-bottom: 12px;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
 
-<div class="app-container">
-  <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
-      <div>
-        <span>StudySync <small id="brandTag">your study wingman</small></span>
-      </div>
-    </div>
-    <nav class="sidebar-nav">
-      <button class="nav-item active" data-feature="dashboard"><i class="fas fa-th-large"></i> Dashboard</button>
-      <button class="nav-item" data-feature="email"><i class="fas fa-envelope"></i> Smart Email</button>
-      <button class="nav-item" data-feature="meeting"><i class="fas fa-file-alt"></i> Notes Summarizer</button>
-      <button class="nav-item" data-feature="task"><i class="fas fa-tasks"></i> Study Planner</button>
-      <button class="nav-item" data-feature="research"><i class="fas fa-book-open"></i> Research</button>
-      <button class="nav-item" data-feature="chatbot"><i class="fas fa-comment-dots"></i> AI Tutor</button>
-    </nav>
-    <div class="mood-box">
-      <span class="mood-label">vibe check — how's today?</span>
-      <div class="moods" id="moodRow">
-        <button data-mood="fired up">fired up</button>
-        <button data-mood="okay-ish">okay-ish</button>
-        <button data-mood="running on caffeine">caffeinated</button>
-        <button data-mood="doomscrolling">doomscrolling</button>
-        <button data-mood="main character">main character</button>
-      </div>
-    </div>
-    <div class="sidebar-profile" onclick="openProfileModal()">
-      <div class="avatar-small" id="sidebarAvatar">S</div>
-      <div class="profile-info">
-        <div class="name" id="sidebarName">friend</div>
-        <div class="role" id="sidebarMood">vibes: unreported</div>
-      </div>
-      <i class="fas fa-pen edit-icon"></i>
-    </div>
-    <div class="sidebar-footer">
-      <div class="disclaimer-badge" onclick="showDisclaimer()">
-        <i class="fas fa-hand-sparkles"></i>
-        <div><strong>Real talk:</strong> everything here is a first draft. Read it, fix it, make it yours.</div>
-      </div>
-      <div style="font-size:12px; color:var(--gray);">v2.1 · made with too much coffee</div>
-    </div>
-  </aside>
+    <div class="app-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <div>
+                    <span>StudySync <small id="brandTag">your study wingman</small></span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-feature="dashboard"><i class="fas fa-th-large"></i> Dashboard</button>
+                <button class="nav-item" data-feature="email"><i class="fas fa-envelope"></i> Smart Email</button>
+                <button class="nav-item" data-feature="meeting"><i class="fas fa-file-alt"></i> Notes Summarizer</button>
+                <button class="nav-item" data-feature="task"><i class="fas fa-tasks"></i> Study Planner</button>
+                <button class="nav-item" data-feature="research"><i class="fas fa-book-open"></i> Research</button>
+                <button class="nav-item" data-feature="chatbot"><i class="fas fa-comment-dots"></i> AI Tutor</button>
+            </nav>
+            <div class="mood-box">
+                <span class="mood-label">vibe check — how's today?</span>
+                <div class="moods" id="moodRow">
+                    <button data-mood="fired up">fired up</button>
+                    <button data-mood="okay-ish">okay-ish</button>
+                    <button data-mood="running on caffeine">caffeinated</button>
+                    <button data-mood="doomscrolling">doomscrolling</button>
+                    <button data-mood="main character">main character</button>
+                </div>
+            </div>
+            <div class="sidebar-profile" onclick="openProfileModal()">
+                <div class="avatar-small" id="sidebarAvatar">S</div>
+                <div class="profile-info">
+                    <div class="name" id="sidebarName">friend</div>
+                    <div class="role" id="sidebarMood">vibes: unreported</div>
+                </div>
+                <i class="fas fa-pen edit-icon"></i>
+            </div>
+            <div class="sidebar-footer">
+                <div class="disclaimer-badge" onclick="showDisclaimer()">
+                    <i class="fas fa-hand-sparkles"></i>
+                    <div><strong>Real talk:</strong> everything here is a first draft. Read it, fix it, make it yours.</div>
+                </div>
+                <div class="version">v2.1 · made with too much coffee</div>
+            </div>
+        </aside>
 
-  <!-- ===== MAIN ===== -->
-  <main class="main-content" id="mainContent">
-    <div class="page-header">
-      <div class="greeting">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-          <h1 id="greetingMessage">Hey there, <span class="highlight">friend</span></h1>
+        <!-- ===== MAIN ===== -->
+        <main class="main-content" id="mainContent">
+            <div class="page-header">
+                <div class="greeting">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                        <h1 id="greetingMessage">Hey there, <span class="highlight">friend</span></h1>
+                    </div>
+                    <p id="greetingSubtext">Let's make today productive — without the burnout.</p>
+                </div>
+                <div class="header-actions">
+                    <div class="status-badge"><span class="dot"></span> awake and ready</div>
+                    <div class="user-avatar" id="headerAvatar" onclick="openProfileModal()">S</div>
+                </div>
+            </div>
+            <div id="dynamicPanel"></div>
+        </main>
+    </div>
+
+    <!-- ===== MODALS ===== -->
+    <div class="modal-overlay" id="profileModal" onclick="if(event.target===this) closeProfileModal()">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-user"></i></div>
+            <h3>Before anything else —</h3>
+            <p class="subtitle">What should I call you? (So I can hype you up properly.)</p>
+            <label for="userNameInput">Your name or nickname</label>
+            <input type="text" id="userNameInput" placeholder="e.g., Frank, Maria, or Alex" maxlength="30" autofocus onkeypress="if(event.key==='Enter') saveProfile()">
+            <button class="btn-primary" onclick="saveProfile()"><i class="fas fa-check"></i> That's me!</button>
+            <button class="btn-secondary" onclick="skipProfile()">Skip for now</button>
         </div>
-        <p id="greetingSubtext">Let's make today productive — without the burnout.</p>
-      </div>
-      <div class="header-actions">
-        <div class="status-badge"><span class="dot"></span> awake and ready</div>
-        <div class="user-avatar" id="headerAvatar" onclick="openProfileModal()">S</div>
-      </div>
     </div>
-    <div id="dynamicPanel"></div>
-  </main>
-</div>
 
-<!-- ===== MODALS ===== -->
-<div class="modal-overlay" id="profileModal" onclick="if(event.target===this) closeProfileModal()">
-  <div class="modal-box">
-    <div class="modal-icon"><i class="fas fa-user"></i></div>
-    <h3>Before anything else —</h3>
-    <p class="subtitle">What should I call you? (So I can hype you up properly.)</p>
-    <label for="userNameInput">Your name or nickname</label>
-    <input type="text" id="userNameInput" placeholder="e.g., Frank, Maria, or Alex" maxlength="30" autofocus onkeypress="if(event.key==='Enter') saveProfile()">
-    <button class="btn-primary" onclick="saveProfile()"><i class="fas fa-check"></i> That's me!</button>
-    <button class="btn-secondary" onclick="skipProfile()">Skip for now</button>
-  </div>
-</div>
+    <div class="modal-overlay disclaimer" id="disclaimerModal" onclick="if(event.target===this) hideDisclaimer()">
+        <div class="modal-box">
+            <h3><i class="fas fa-hand-sparkles" style="color:var(--accent);"></i> Real talk, before we start</h3>
+            <p><strong>These are drafts, not gospel.</strong> StudySync uses simulated AI to help you study smarter. Always review and verify outputs before submitting academic work.</p>
+            <p><strong>Your privacy:</strong> your name, mood and stats live in your browser only. Nothing is uploaded or shared.</p>
+            <p><strong>Academic integrity:</strong> use this as scaffolding — the thinking, and the final words, should be yours.</p>
+            <button class="btn-primary" onclick="hideDisclaimer()">Got it, let's go</button>
+        </div>
+    </div>
 
-<div class="modal-overlay disclaimer" id="disclaimerModal" onclick="if(event.target===this) hideDisclaimer()">
-  <div class="modal-box">
-    <h3><i class="fas fa-hand-sparkles" style="color:var(--accent);"></i> Real talk, before we start</h3>
-    <p><strong>These are drafts, not gospel.</strong> StudySync uses simulated AI to help you study smarter. Always review and verify outputs before submitting academic work.</p>
-    <p><strong>Your privacy:</strong> your name, mood and stats live in your browser only. Nothing is uploaded or shared.</p>
-    <p><strong>Academic integrity:</strong> use this as scaffolding — the thinking, and the final words, should be yours.</p>
-    <button class="btn-primary" onclick="hideDisclaimer()">Got it, let's go</button>
-  </div>
-</div>
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg">nice.</span></div>
 
-<!-- ===== TOAST ===== -->
-<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg">nice.</span></div>
+    <script>
+        (function() {
+            "use strict";
 
-<script src="script.js"></script>
+            // ===== CONFIG =====
+            var STORE = "studysync.v3";
+            var saved = {};
+            try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { saved = {}; }
+
+            var userName = saved.name || "";
+            var mood = saved.mood || "";
+            var emailTone = "formal";
+            var currentFeature = "dashboard";
+            var stats = Object.assign({ total: 0, time: 0, emails: 0, tasks: 0, meetings: 0, research: 0 }, saved.stats || {});
+            var activities = saved.activities || [];
+            var lastPep = saved.lastPep || "";
+            var seenDisclaimer = !!saved.seenDisclaimer;
+            var firstSeen = saved.firstSeen || new Date().toDateString();
+
+            var panelContainer = document.getElementById('dynamicPanel');
+            var navButtons = document.querySelectorAll('.nav-item');
+
+            // ===== HELPERS =====
+            function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+            function esc(s) {
+                return String(s).replace(/[&<>"]/g, function(c) {
+                    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+                });
+            }
+
+            function first() { return (userName || "friend").split(" ")[0]; }
+
+            function timeOfDay() {
+                var h = new Date().getHours();
+                if (h < 5) return "night owl hours";
+                if (h < 12) return "morning";
+                if (h < 17) return "afternoon";
+                if (h < 21) return "evening";
+                return "night owl hours";
+            }
+
+            function persist() {
+                try {
+                    localStorage.setItem(STORE, JSON.stringify({
+                        name: userName,
+                        mood: mood,
+                        stats: stats,
+                        activities: activities,
+                        lastPep: lastPep,
+                        seenDisclaimer: seenDisclaimer,
+                        firstSeen: firstSeen
+                    }));
+                } catch (e) {}
+            }
+
+            // ===== TOAST =====
+            function showToast(msg) {
+                var t = document.getElementById('toast');
+                document.getElementById('toastMsg').textContent = msg;
+                t.classList.add('show');
+                clearTimeout(showToast._t);
+                showToast._t = setTimeout(function() { t.classList.remove('show'); }, 2800);
+            }
+            window.showToast = showToast;
+
+            var toastLines = {
+                email: ["Email drafted — give it one human read.", "Draft's ready. Your voice, polished."],
+                notes: ["Notes wrangled — check those dates yourself!", "Summary's in."],
+                plan: ["There's your day. Now defend it from distractions.", "Planned!"],
+                research: ["Framework's up. Now hunt the real sources.", "Map is ready."],
+                copy: ["Copied", "In your clipboard."],
+                export: ["Saved as a txt.", "Downloaded."],
+                mood: ["Vibe noted", "Logged."],
+                clear: ["Swept. Fresh page.", "Clean slate."]
+            };
+            var lastLines = {};
+
+            function fresh(kind) {
+                var arr = toastLines[kind] || ["nice."];
+                var options = arr.filter(function(a) { return a !== lastLines[kind]; });
+                var chosen = pick(options.length ? options : arr);
+                lastLines[kind] = chosen;
+                return chosen;
+            }
+
+            // ===== ACTIVITY =====
+            function addActivity(text, type) {
+                type = type || 'primary';
+                var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                activities.unshift({ text: text, time: time, type: type });
+                if (activities.length > 8) activities.pop();
+                persist();
+                renderActivities();
+            }
+
+            function renderActivities() {
+                var list = document.getElementById('activityList');
+                if (!list) return;
+                if (!activities.length) {
+                    list.innerHTML =
+                        '<div style="text-align:center; color:var(--gray); padding:16px 0; font-size:13px;">Nothing yet — pick a tool above.</div>';
+                    return;
+                }
+                list.innerHTML = activities.map(function(a) {
+                    return '<div class="activity-item"><div class="dot ' + a.type + '"></div><div class="text">' + esc(a
+                        .text) + '</div><div class="time">' + a.time + '</div></div>';
+                }).join('');
+            }
+
+            function clearActivities() {
+                activities = [];
+                persist();
+                renderActivities();
+                showToast(fresh('clear'));
+            }
+            window.clearActivities = clearActivities;
+
+            // ===== STATS =====
+            function updateStats(type, count) {
+                count = count || 1;
+                if (type === 'emails') stats.emails += count;
+                else if (type === 'tasks') stats.tasks += count;
+                else if (type === 'meetings') stats.meetings += count;
+                else if (type === 'research') stats.research += count;
+                stats.total++;
+                stats.time += 5;
+                persist();
+                ['Total', 'Time', 'Emails', 'Tasks', 'Meetings', 'Research'].forEach(function(id) {
+                    var el = document.getElementById('stat' + id);
+                    if (!el) return;
+                    var key = id.toLowerCase();
+                    if (key === 'total') el.textContent = stats.total;
+                    else if (key === 'time') el.textContent = stats.time + 'm';
+                    else if (key === 'emails') el.textContent = stats.emails;
+                    else if (key === 'tasks') el.textContent = stats.tasks;
+                    else if (key === 'meetings') el.textContent = stats.meetings;
+                    else if (key === 'research') el.textContent = stats.research;
+                });
+            }
+
+            // ===== PROFILE =====
+            function updateProfileUI() {
+                var initial = first().charAt(0).toUpperCase();
+                document.getElementById('sidebarName').textContent = userName || "friend";
+                document.getElementById('sidebarMood').textContent = mood ? "vibes: " + mood : "vibes: unreported";
+                document.getElementById('sidebarAvatar').textContent = initial;
+                document.getElementById('headerAvatar').textContent = initial;
+                document.getElementById('brandTag').textContent = userName ? first() + "'s study wingman" :
+                "your study wingman";
+                document.querySelectorAll('#moodRow button').forEach(function(b) {
+                    b.classList.toggle('picked', b.dataset.mood === mood);
+                });
+            }
+
+            var moodOpeners = {
+                "": "",
+                "fired up": "That energy? We're spending ALL of it today. ",
+                "okay-ish": "An okay-ish day is still a showing-up day. ",
+                "running on caffeine": "Hydrate too. Water is free. ",
+                "doomscrolling": "Hey. Close the other tab. Just us now. ",
+                "main character": "Main character behaviour — let's write your next scene. "
+            };
+            var subtexts = {
+                "": ["Let's make today productive — without the burnout.", "Your academic chaos, lovingly organised."],
+                "fired up": ["Channel it. One task at a time.", "Let's burn through that list."],
+                "okay-ish": ["Slow is fine. Stopped is not.", "Gentle progress still counts."],
+                "running on caffeine": ["Ride the wave — drink some water too.", "Coffee first, conquering second."],
+                "doomscrolling": ["One thing. Just do one thing.", "The algorithm can survive without you."],
+                "main character": ["Every protagonist has a montage. This is yours.", "Scene one: you, winning."]
+            };
+
+            function updateGreeting() {
+                var tod = timeOfDay();
+                var opener = moodOpeners[mood] || "";
+                var line;
+                if (tod === "night owl hours") {
+                    line = pick(["Up late, {n}? Let's make it count.",
+                        "{n}, night-owl hours. One block, then bed. Deal?"
+                    ]);
+                } else {
+                    line = pick(["Good {tod}, {n}. Let's get this done.", "Good {tod}! Deadlines won't fight themselves.",
+                        "{tod} already, {n}? Time flies. Not today."
+                    ]);
+                }
+                document.getElementById('greetingMessage').innerHTML = esc(opener) + esc(line).replace("{n}",
+                    '<span class="highlight">' + esc(first()) + '</span>').replace("{tod}", tod);
+                var subs = subtexts[mood] || subtexts[""];
+                document.getElementById('greetingSubtext').textContent = pick(subs);
+            }
+
+            function openProfileModal() {
+                document.getElementById('profileModal').classList.add('show');
+                var input = document.getElementById('userNameInput');
+                input.value = userName;
+                setTimeout(function() { input.focus(); }, 200);
+            }
+            window.openProfileModal = openProfileModal;
+
+            function closeProfileModal() { document.getElementById('profileModal').classList.remove('show'); }
+            window.closeProfileModal = closeProfileModal;
+
+            function saveProfile() {
+                var input = document.getElementById('userNameInput');
+                var name = input.value.trim();
+                if (!name) {
+                    input.style.borderColor = 'var(--primary)';
+                    input.placeholder = 'I need SOMETHING to call you!';
+                    setTimeout(function() {
+                        input.style.borderColor = 'var(--light-gray)';
+                        input.placeholder = 'e.g., Frank, Maria, or Alex';
+                    }, 2000);
+                    return;
+                }
+                var isNew = name !== userName;
+                userName = name;
+                persist();
+                updateProfileUI();
+                updateGreeting();
+                closeProfileModal();
+                if (isNew) {
+                    confetti();
+                    showToast("Nice to meet you, " + first());
+                } else {
+                    showToast("Updated. Looking good.");
+                }
+                if (currentFeature === 'chatbot' || currentFeature === 'dashboard') renderFeature(currentFeature);
+            }
+            window.saveProfile = saveProfile;
+
+            function skipProfile() {
+                closeProfileModal();
+                showToast("No worries — 'friend' it is");
+            }
+            window.skipProfile = skipProfile;
+
+            // ===== DISCLAIMER =====
+            function showDisclaimer() { document.getElementById('disclaimerModal').classList.add('show'); }
+            window.showDisclaimer = showDisclaimer;
+
+            function hideDisclaimer() {
+                document.getElementById('disclaimerModal').classList.remove('show');
+                seenDisclaimer = true;
+                persist();
+            }
+            window.hideDisclaimer = hideDisclaimer;
+
+            // ===== TOGGLE SIDEBAR =====
+            window.toggleSidebar = function() {
+                document.getElementById('sidebar').classList.toggle('open');
+            };
+
+            // ===== CONFETTI =====
+            function confetti() {
+                var symbols = ["✦", "◈", "◆", "⬤", "✦"];
+                for (var i = 0; i < 12; i++) {
+                    var c = document.createElement("span");
+                    c.className = "confetti";
+                    c.textContent = pick(symbols);
+                    c.style.left = Math.random() * 100 + "vw";
+                    c.style.animationDuration = 1.6 + Math.random() * 1.4 + "s";
+                    c.style.animationDelay = Math.random() * 0.4 + "s";
+                    c.style.fontSize = 12 + Math.random() * 14 + "px";
+                    document.body.appendChild(c);
+                    setTimeout(function(el) { el.remove(); }.bind(null, c), 3400);
+                }
+            }
+
+            // ===== COPY / EXPORT =====
+            window.copyFrom = function(elId) {
+                var el = document.getElementById(elId);
+                if (!el) return;
+                var text = el.innerText || el.textContent;
+                navigator.clipboard.writeText(text).then(
+                    function() { showToast(fresh('copy')); },
+                    function() { showToast('Select & Ctrl+C'); }
+                );
+            };
+
+            window.exportCurrent = function() {
+                var map = { email: 'emailOutput', meeting: 'outSummary', task: 'taskOutput', research: 'researchOutput' };
+                var el = document.getElementById(map[currentFeature]);
+                var content = el ? el.innerText : '';
+                if (!content || content.indexOf('appear here') !== -1) { showToast('Nothing to export'); return; }
+                var blob = new Blob([content], { type: 'text/plain' });
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'studysync-' + currentFeature + '-' + Date.now() + '.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast(fresh('export'));
+            };
+
+            // ===== LOADING =====
+            function setLoading(elId, msg) {
+                document.getElementById(elId).innerHTML = '<div class="loading-state"><div class="spinner"></div><p>' + esc(
+                    msg || "One sec, thinking…") + '</p></div>';
+            }
+
+            function realTalk(text) {
+                return '<div class="real-talk"><i class="fas fa-circle-info"></i><span>' + text + '</span></div>';
+            }
+
+            // ===== PEP =====
+            var peps = [
+                "Small steps, {n}. Future-you is grateful.",
+                "You've done more than your brain gives credit for.",
+                "Done > perfect. Ship the draft.",
+                "One boring task today = one less panic later.",
+                "Nobody remembers the email. Everybody remembers you showed up.",
+                "Hydrate. Stretch. Then one more block.",
+                "You're not behind. You're mid-story.",
+                "The assignment is huge. The next step is small. Do the small one."
+            ];
+
+            function pep() {
+                var options = peps.filter(function(p) { return p !== lastPep; });
+                var chosen = pick(options.length ? options : peps);
+                lastPep = chosen;
+                persist();
+                return '<div class="pep">' + esc(chosen.replace("{n}", first())) + '</div>';
+            }
+
+            // ===== MOOD =====
+            document.querySelectorAll('#moodRow button').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    mood = b.dataset.mood;
+                    persist();
+                    updateProfileUI();
+                    updateGreeting();
+                    showToast(fresh('mood'));
+                    if (currentFeature === 'dashboard') renderFeature('dashboard');
+                });
+            });
+
+            // ===== FEATURES =====
+            var features = {
+                dashboard: { title: 'Dashboard', icon: 'fa-th-large', desc: 'Balance classes, work & side projects' },
+                email: { title: 'Smart Email Generator', icon: 'fa-envelope', desc: 'Emails to professors, employers & teams' },
+                meeting: { title: 'Notes Summarizer', icon: 'fa-file-alt', desc: 'Lecture notes, group meetings & standups' },
+                task: { title: 'Study & Work Planner', icon: 'fa-tasks', desc: 'Schedule classes, shifts & project time' },
+                research: { title: 'Research Assistant', icon: 'fa-book-open', desc: 'Structured outlines — never fake sources' },
+                chatbot: { title: 'AI Tutor', icon: 'fa-comment-dots', desc: 'Study tips, time management & career advice' }
+            };
+
+            // ===== RENDER DASHBOARD =====
+            function renderDashboard() {
+                var days = Math.max(1, Math.round((Date.now() - new Date(firstSeen).getTime()) / 86400000) + 1);
+                var cards = Object.keys(features).filter(function(k) { return k !== 'dashboard'; }).map(function(k) {
+                    var colorMap = { email: 'primary', meeting: 'secondary', task: 'accent', research: 'purple',
+                        chatbot: 'primary' };
+                    return '<div class="feature-card" onclick="window.renderFeature(\'' + k + '\')">' +
+                        '<div class="icon-bg ' + (colorMap[k] || 'primary') + '"><i class="fas ' + features[k].icon +
+                        '"></i></div>' +
+                        '<h3>' + features[k].title + '</h3><p>' + features[k].desc + '</p>' +
+                        '<button class="btn-outline">Open <i class="fas fa-arrow-right"></i></button></div>';
+                }).join('');
+
+                return '' +
+                    '<div class="feature-panel" style="margin-bottom:20px; background:linear-gradient(135deg, rgba(74,107,61,0.08), rgba(184,169,122,0.08));">' +
+                    '<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">' +
+                    '<div><h2 style="font-size:20px;">Day ' + days + ' of showing up</h2>' +
+                    '<p style="color:var(--gray); font-size:13px; margin-top:2px;">Nobody talks about this part — but it is the whole game.</p></div>' +
+                    '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
+                    '<button class="btn-secondary" onclick="window.renderFeature(\'task\')"><i class="fas fa-wand-magic-sparkles"></i> Plan my day</button>' +
+                    '<button class="btn-secondary" onclick="window.renderFeature(\'meeting\')"><i class="fas fa-bolt"></i> Tame my notes</button>' +
+                    '<button class="btn-secondary" onclick="window.renderFeature(\'chatbot\')"><i class="fas fa-graduation-cap"></i> Talk to tutor</button>' +
+                    '</div></div></div>' +
+                    '<div class="stats-grid">' +
+                    '<div class="stat-card"><div class="label">Things tackled</div><div class="value" id="statTotal">' +
+                    stats.total + '</div></div>' +
+                    '<div class="stat-card"><div class="label">Minutes saved</div><div class="value secondary" id="statTime">' +
+                    stats.time + 'm</div></div>' +
+                    '<div class="stat-card"><div class="label">Emails rescued</div><div class="value primary" id="statEmails">' +
+                    stats.emails + '</div></div>' +
+                    '<div class="stat-card"><div class="label">Days planned</div><div class="value accent" id="statTasks">' +
+                    stats.tasks + '</div></div>' +
+                    '<div class="stat-card"><div class="label">Notes wrangled</div><div class="value primary" id="statMeetings">' +
+                    stats.meetings + '</div></div>' +
+                    '<div class="stat-card"><div class="label">Research mapped</div><div class="value secondary" id="statResearch">' +
+                    stats.research + '</div></div>' +
+                    '</div>' +
+                    '<div class="feature-grid">' + cards + '</div>' +
+                    '<div class="activity-panel">' +
+                    '<div class="panel-title">What you have been up to <button class="btn-secondary" style="font-size:11px; padding:4px 12px;" onclick="window.clearActivities()"><i class="fas fa-broom"></i> Sweep</button></div>' +
+                    '<div id="activityList"></div>' +
+                    '</div>' + pep();
+            }
+
+            // ===== RENDER EMAIL =====
+            function renderEmail() {
+                return '<div class="two-col">' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-sliders"></i> Compose</h2></div>' +
+                    '<p class="panel-sub">Just bullet the facts — I will do the polite gymnastics.</p>' +
+                    '<div class="input-area">' +
+                    '<label>Recipient</label>' +
+                    '<input type="text" id="emailRecipient" value="Prof. Johnson" placeholder="e.g., Prof. Smith">' +
+                    '<label>Subject</label>' +
+                    '<input type="text" id="emailSubject" value="Assignment Extension Request" placeholder="Subject">' +
+                    '<label>Key points</label>' +
+                    '<textarea rows="4" id="emailPoints" placeholder="What do you want to say?">I have been unwell this week and could not complete the assignment. I need 3 more days to finish the coding section and documentation.</textarea>' +
+                    '<label>Pick your flavour</label>' +
+                    '<div class="action-row">' +
+                    '<button class="btn-secondary ' + (emailTone === 'formal' ? 'active' : '') + '" onclick="window.setEmailTone(\'formal\')">Formal</button>' +
+                    '<button class="btn-secondary ' + (emailTone === 'friendly' ? 'active' : '') + '" onclick="window.setEmailTone(\'friendly\')">Friendly</button>' +
+                    '<button class="btn-secondary ' + (emailTone === 'persuasive' ? 'active' : '') + '" onclick="window.setEmailTone(\'persuasive\')">Persuasive</button>' +
+                    '</div>' +
+                    '<button class="btn-primary" onclick="window.generateEmail()"><i class="fas fa-wand-magic-sparkles"></i> Write it for me</button>' +
+                    '</div></div>' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-envelope-open-text"></i> Your Email</h2>' +
+                    '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
+                    '<button class="btn-secondary" onclick="window.copyFrom(\'emailOutput\')"><i class="fas fa-copy"></i></button>' +
+                    '<button class="btn-secondary" onclick="window.exportCurrent()"><i class="fas fa-download"></i></button>' +
+                    '</div></div>' +
+                    '<div class="output-box" id="emailOutput" contenteditable="true"><div class="empty-state"><i class="fas fa-envelope"></i><p>Your draft lands here — and stays editable.</p></div></div>' +
+                    realTalk("Read it out loud once before sending. If a sentence sounds like a robot wrote it — it is because one did. Fix it in your voice.") +
+                    '</div></div>';
+            }
+
+            // ===== RENDER MEETING =====
+            function renderMeeting() {
+                return '<div class="two-col-equal">' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-pen-to-square"></i> Paste Notes</h2></div>' +
+                    '<p class="panel-sub">Dump it all. The messier, the better.</p>' +
+                    '<div class="input-area">' +
+                    '<label>Lecture / meeting notes</label>' +
+                    '<textarea rows="12" id="meetingInput" placeholder="Paste your notes here...">CS301 Lecture: Graph Algorithms\n- Covered Dijkstra and Bellman-Ford\n- Dijkstra does not work with negative weights\n- Assignment 3: implement both algorithms in Python\n- Due: 20 Sept before midnight\n- Office hours: Wed 2-4pm Room 304</textarea>' +
+                    '<button class="btn-primary" onclick="window.summarizeMeeting()"><i class="fas fa-wand-magic-sparkles"></i> Wrangle it</button>' +
+                    '</div></div>' +
+                    '<div>' +
+                    '<div class="meeting-outputs" id="meetingOutputs" style="display:none;">' +
+                    '<div class="meeting-output-card"><h4><i class="fas fa-list-check"></i> Action items</h4><ul id="outActions"></ul></div>' +
+                    '<div class="meeting-output-card"><h4><i class="fas fa-gavel"></i> Decisions</h4><ul id="outDecisions"></ul></div>' +
+                    '<div class="meeting-output-card"><h4><i class="fas fa-clock"></i> Deadlines</h4><ul id="outDeadlines"></ul></div>' +
+                    '<div class="meeting-output-card" style="grid-column:1/-1;"><h4><i class="fas fa-align-left"></i> Summary</h4><p id="outSummary" style="font-size:14px; line-height:1.6;"></p></div>' +
+                    '</div>' +
+                    '<div class="output-box" id="meetingPlaceholder"><div class="empty-state"><i class="fas fa-clipboard-list"></i><p>Extracted insights appear here</p></div></div>' +
+                    '<div class="output-actions" id="meetingActions" style="display:none;">' +
+                    '<button class="btn-secondary" onclick="window.copyFrom(\'outSummary\')"><i class="fas fa-copy"></i> Copy summary</button>' +
+                    '<button class="btn-secondary" onclick="window.exportCurrent()"><i class="fas fa-download"></i> Export</button>' +
+                    '</div>' +
+                    realTalk("I can sniff out dates, but I cannot read your lecturer's mind. Cross-check every deadline on the LMS before trusting it.") +
+                    '</div></div>';
+            }
+
+            // ===== RENDER TASK =====
+            function renderTask() {
+                return '<div class="two-col">' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-sliders"></i> Plan</h2></div>' +
+                    '<p class="panel-sub">A schedule with breaks you are actually allowed to take.</p>' +
+                    '<div class="input-area">' +
+                    '<label>Tasks (one per line)</label>' +
+                    '<textarea rows="6" id="taskInput" placeholder="Enter tasks...">Complete Data Structures assignment\nWork shift 4pm-8pm\nFix landing page bug\nStudy for midterm\nEmail group about project</textarea>' +
+                    '<label>Timeframe</label>' +
+                    '<select id="taskTimeframe"><option value="daily">Daily</option><option value="weekly">Weekly</option></select>' +
+                    '<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">' +
+                    '<div><label>Start</label><input type="time" id="taskStart" value="08:00"></div>' +
+                    '<div><label>End</label><input type="time" id="taskEnd" value="22:00"></div>' +
+                    '</div>' +
+                    '<button class="btn-primary" onclick="window.generatePlan()"><i class="fas fa-wand-magic-sparkles"></i> Build my day</button>' +
+                    '</div></div>' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-calendar-days"></i> Schedule</h2>' +
+                    '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
+                    '<button class="btn-secondary" onclick="window.copyFrom(\'taskOutput\')"><i class="fas fa-copy"></i></button>' +
+                    '<button class="btn-secondary" onclick="window.exportCurrent()"><i class="fas fa-download"></i></button>' +
+                    '</div></div>' +
+                    '<div class="output-box" id="taskOutput" contenteditable="true"><div class="empty-state"><i class="fas fa-calendar-check"></i><p>Your day, time-blocked and break-friendly, appears here.</p></div></div>' +
+                    realTalk("This is a starting point, not a court order. If a block overruns, steal time from another block — never from sleep.") +
+                    '</div></div>';
+            }
+
+            // ===== RENDER RESEARCH =====
+            function renderResearch() {
+                return '<div class="two-col">' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-sliders"></i> Research</h2></div>' +
+                    '<p class="panel-sub">From blank doc to battle plan.</p>' +
+                    '<div class="input-area">' +
+                    '<label>What are you wrestling with?</label>' +
+                    '<textarea rows="3" id="researchInput" placeholder="Enter your topic...">Impact of remote work on student productivity and mental health</textarea>' +
+                    '<label>How deep?</label>' +
+                    '<select id="researchDepth"><option value="brief">Skimming for survival</option><option value="detailed">Going full scholar</option></select>' +
+                    '<label>Focus areas</label>' +
+                    '<div style="display:flex; flex-wrap:wrap; gap:6px;">' +
+                    '<label style="display:flex; align-items:center; gap:6px; padding:6px 12px; border:2px solid var(--light-gray); border-radius:40px; font-size:12px; cursor:pointer; background:var(--white);"><input type="checkbox" class="research-focus" value="trends" checked style="accent-color:var(--primary);"> Trends</label>' +
+                    '<label style="display:flex; align-items:center; gap:6px; padding:6px 12px; border:2px solid var(--light-gray); border-radius:40px; font-size:12px; cursor:pointer; background:var(--white);"><input type="checkbox" class="research-focus" value="challenges" style="accent-color:var(--primary);"> Challenges</label>' +
+                    '<label style="display:flex; align-items:center; gap:6px; padding:6px 12px; border:2px solid var(--light-gray); border-radius:40px; font-size:12px; cursor:pointer; background:var(--white);"><input type="checkbox" class="research-focus" value="opportunities" checked style="accent-color:var(--primary);"> Opportunities</label>' +
+                    '<label style="display:flex; align-items:center; gap:6px; padding:6px 12px; border:2px solid var(--light-gray); border-radius:40px; font-size:12px; cursor:pointer; background:var(--white);"><input type="checkbox" class="research-focus" value="recommendations" checked style="accent-color:var(--primary);"> Recommendations</label>' +
+                    '</div>' +
+                    '<button class="btn-primary" onclick="window.generateResearch()"><i class="fas fa-wand-magic-sparkles"></i> Build my battle plan</button>' +
+                    '</div></div>' +
+                    '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-file-lines"></i> Report</h2>' +
+                    '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
+                    '<button class="btn-secondary" onclick="window.copyFrom(\'researchOutput\')"><i class="fas fa-copy"></i></button>' +
+                    '<button class="btn-secondary" onclick="window.exportCurrent()"><i class="fas fa-download"></i></button>' +
+                    '</div></div>' +
+                    '<div class="output-box" id="researchOutput" contenteditable="true"><div class="empty-state"><i class="fas fa-magnifying-glass-chart"></i><p>Your research summary appears here</p></div></div>' +
+                    realTalk("I will never invent a citation. Ever. I will tell you exactly what to search for — finding and reading the real sources is your quest.") +
+                    '</div></div>';
+            }
+
+            // ===== RENDER CHATBOT =====
+            function tutorGreeting() {
+                var base = "Hey " + first() +
+                    "! I am your AI Tutor. Ask me about study tips, time management, career advice — anything student-life. I explain things; I do not write your assessments for you. That is the deal.";
+                if (mood === "doomscrolling") return base +
+                    "\n\nAlso — doomscrolling vibes detected. One question at a time. We rebuild from there.";
+                if (mood === "fired up") return base + "\n\nFeeling that fire? Good. Aim it at one task.";
+                if (mood === "running on caffeine") return base + "\n\nCaffeine levels acknowledged. Water break in T-minus one hour.";
+                return base;
+            }
+
+            function renderChatbot() {
+                return '<div class="feature-panel">' +
+                    '<div class="panel-header"><h2><i class="fas fa-robot"></i> AI Tutor</h2>' +
+                    '<button class="btn-secondary" onclick="window.clearChat()"><i class="fas fa-trash-can"></i> Fresh start</button></div>' +
+                    '<div class="chat-container">' +
+                    '<div class="chat-messages" id="chatMessages">' +
+                    '<div class="chat-msg bot"><div class="avatar"><i class="fas fa-robot"></i></div><div class="bubble">' +
+                    esc(tutorGreeting()).replace(/\n/g, '<br>') + '</div></div>' +
+                    '</div>' +
+                    '<div class="chat-input-area">' +
+                    '<input type="text" id="chatInput" placeholder="Ask about exams, balance, side projects…" onkeypress="if(event.key===\'Enter\') window.sendChat()">' +
+                    '<button onclick="window.sendChat()"><i class="fas fa-paper-plane"></i></button>' +
+                    '</div>' +
+                    '<div class="chat-quick-actions">' +
+                    '<button onclick="window.quickChat(\'How do I balance work and study?\')">Work-study balance</button>' +
+                    '<button onclick="window.quickChat(\'Exam panic. Help.\')">Exam prep</button>' +
+                    '<button onclick="window.quickChat(\'Why do I keep procrastinating?\')">Procrastination</button>' +
+                    '<button onclick="window.quickChat(\'Side project tips\')">Side projects</button>' +
+                    '</div></div>' +
+                    realTalk("I give study advice, not medical/legal/financial advice — and I will not do your assessment for you. That part is yours, and it should be.") +
+                    '</div>';
+            }
+
+            // ===== FEATURE LOGIC =====
+            window.setEmailTone = function(tone) {
+                emailTone = tone;
+                renderFeature('email');
+            };
+
+            window.generateEmail = function() {
+                var recipient = (document.getElementById('emailRecipient') || {}).value || 'Professor';
+                recipient = recipient.trim();
+                var subject = ((document.getElementById('emailSubject') || {}).value || 'Follow-up').trim();
+                var points = ((document.getElementById('emailPoints') || {}).value || 'General discussion').trim();
+                setLoading('emailOutput', "Drafting something that sounds human…");
+                setTimeout(function() {
+                    var body;
+                    if (emailTone === 'formal') {
+                        body = 'Subject: ' + subject + '\n\nDear ' + recipient +
+                            ',\n\nI hope this email finds you well.\n\nI am writing regarding ' + subject
+                            .toLowerCase() + '. ' + points +
+                            '\n\nPlease let me know if you need any further information. I would be happy to discuss this during office hours.\n\nThank you for your time.\n\nBest regards,\n' +
+                            (userName || 'Your Name');
+                    } else if (emailTone === 'friendly') {
+                        body = 'Subject: ' + subject + '\n\nHi ' + recipient +
+                            ',\n\nHope you are doing well!\n\nI wanted to chat about ' + subject.toLowerCase() +
+                            '. ' + points +
+                            '\n\nLet me know what you think — happy to discuss whenever you are free.\n\nCheers,\n' +
+                            (userName || 'Your Name');
+                    } else {
+                        body = 'Subject: ' + subject + ' — Request for Support\n\nHi ' + recipient +
+                            ',\n\nI hope you are having a great week.\n\nI am reaching out about ' + subject
+                            .toLowerCase() + '. ' + points +
+                            '\n\nI believe this adjustment would significantly improve my ability to deliver quality work, and I would welcome the chance to discuss it.\n\nBest,\n' +
+                            (userName || 'Your Name');
+                    }
+                    document.getElementById('emailOutput').innerHTML =
+                        '<div style="white-space:pre-wrap; font-size:14px; line-height:1.8;">' + esc(body) +
+                    '</div>';
+                    addActivity('Rescued a ' + emailTone + ' email to ' + recipient);
+                    updateStats('emails');
+                    showToast(fresh('email'));
+                }, 800 + Math.random() * 400);
+            };
+
+            window.summarizeMeeting = function() {
+                var input = ((document.getElementById('meetingInput') || {}).value) || '';
+                if (!input.trim()) { showToast('Paste something first'); return; }
+                var lines = input.split('\n').filter(function(l) { return l.trim(); });
+                var actionWords = ['assignment', 'implement', 'submit', 'study', 'read', 'complete', 'review', 'prepare',
+                    'email', 'join', 'form', 'attend', 'practice', 'code'
+                ];
+                var decisionWords = ['moved', 'decided', 'agreed', 'approved', 'changed', 'postponed', 'cancelled',
+                    'adopted', 'switched', 'extended'
+                ];
+                var actionItems = lines.filter(function(l) { return actionWords.some(function(w) { return l.toLowerCase()
+                        .includes(w); }); });
+                var decisions = lines.filter(function(l) { return decisionWords.some(function(w) { return l.toLowerCase()
+                        .includes(w); }); });
+                var deadlineRegex =
+                    /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Monday|Tuesday|Wednesday|Thursday|Friday|week|midnight|due|deadline|exam|pm|am|\d{1,2}(st|nd|rd|th)?)\b/i;
+                var deadlines = lines.filter(function(l) { return deadlineRegex.test(l) || /\bdue\b/i.test(l) ||
+                        /\bby\b/i.test(l); });
+
+                document.getElementById('meetingPlaceholder').style.display = 'none';
+                document.getElementById('meetingOutputs').style.display = 'grid';
+                document.getElementById('meetingActions').style.display = 'flex';
+
+                var clean = function(s) { return esc(s.replace(/^[-•\s]*/, '')); };
+                document.getElementById('outActions').innerHTML = actionItems.length ? actionItems.map(function(i) {
+                    return '<li>' + clean(i) + '</li>';
+                }).join('') : '<li style="color:var(--gray);font-style:italic;">Nothing to do — suspiciously calm notes</li>';
+                document.getElementById('outDecisions').innerHTML = decisions.length ? decisions.map(function(d) {
+                    return '<li>' + clean(d) + '</li>';
+                }).join('') : '<li style="color:var(--gray);font-style:italic;">No decisions detected</li>';
+                document.getElementById('outDeadlines').innerHTML = deadlines.length ? deadlines.map(function(d) {
+                    return '<li style="color:var(--primary);font-weight:600;">' + clean(d) + '</li>';
+                }).join('') : '<li style="color:var(--gray);font-style:italic;">No deadlines detected</li>';
+                document.getElementById('outSummary').textContent = 'The TL;DR: ' + lines.length +
+                    ' points covered, ' + actionItems.length + ' thing(s) to actually do, ' + decisions.length +
+                    ' decision(s) locked in, and ' + deadlines.length +
+                    ' date(s) that will sneak up on you if you ignore them. ' + first() +
+                    ', start with the earliest deadline.';
+
+                addActivity('Wrangled notes (' + lines.length + ' points)', 'secondary');
+                updateStats('meetings');
+                showToast(fresh('notes'));
+            };
+
+            window.generatePlan = function() {
+                var tasksInput = ((document.getElementById('taskInput') || {}).value) || '';
+                var timeframe = ((document.getElementById('taskTimeframe') || {}).value) || 'daily';
+                var startTime = ((document.getElementById('taskStart') || {}).value) || '08:00';
+                var endTime = ((document.getElementById('taskEnd') || {}).value) || '22:00';
+                if (!tasksInput.trim()) { showToast('Add at least one task'); return; }
+                var tasks = tasksInput.split('\n').filter(function(t) { return t.trim(); });
+                setLoading('taskOutput', 'Building a day you can actually survive…');
+                setTimeout(function() {
+                    var output;
+                    if (timeframe === 'daily') {
+                        var priorities = ['High Priority', 'Medium Priority', 'Low Priority'];
+                        var colors = ['#4A6B3D', '#6B8F5E', '#B8A97A'];
+                        output = '<div style="margin-bottom:16px;"><h4 style="font-size:15px;font-weight:700;margin-bottom:4px;">' +
+                            esc(first()) + '\'s day (' + startTime + ' – ' + endTime + ')</h4><p style="font-size:12px; color:var(--gray); margin-bottom:12px;">A starting point, not a court order.</p>';
+                        var current = parseTime(startTime);
+                        var end = parseTime(endTime);
+                        var perTask = Math.max(30, Math.floor((end - current) / tasks.length));
+                        tasks.forEach(function(task, i) {
+                            var pIdx = i < Math.ceil(tasks.length / 3) ? 0 : (i < Math.ceil(tasks.length * 2 /
+                                3) ? 1 : 2);
+                            var s = formatTime(current);
+                            current += perTask;
+                            var e = formatTime(current);
+                            output += '<div style="display:flex;gap:14px;margin-bottom:10px;padding:14px;background:white;border-radius:12px;border:2px solid var(--light-gray);">' +
+                                '<div style="width:54px;font-size:11px;font-family:monospace;color:var(--gray);padding-top:3px;">' +
+                                s + '<br>↓<br>' + e + '</div>' +
+                                '<div style="flex:1;">' +
+                                '<div style="display:flex;gap:6px;margin-bottom:4px;">' +
+                                '<span style="padding:2px 8px;border-radius:16px;font-size:10px;font-weight:600;background:' +
+                                colors[pIdx] + '20;color:' + colors[pIdx] + ';">' + priorities[pIdx] +
+                                '</span>' +
+                                '<span style="font-size:10px;color:var(--gray);">#' + (i + 1) + '</span>' +
+                                '</div>' +
+                                '<p style="font-weight:600;color:var(--dark);font-size:13px;">' + esc(task
+                                .trim()) + '</p>' +
+                                '<p style="font-size:11px;color:var(--gray);margin-top:2px;">' + Math.floor(
+                                    perTask / 60) + 'h ' + (perTask % 60) + 'm</p>' +
+                                '</div></div>';
+                        });
+                        output += '</div><div style="background:rgba(107,143,94,0.10);border-radius:12px;padding:14px;border:2px solid var(--secondary);">' +
+                            '<h5 style="font-weight:700;color:var(--secondary-dark);margin-bottom:6px;font-size:12px;">Ground rules</h5>' +
+                            '<ul style="font-size:12px;color:var(--dark);line-height:1.7;padding-left:14px;">' +
+                            '<li>Hardest task first, while your brain still likes you</li>' +
+                            '<li>5-min breaks every 25 minutes (Pomodoro style)</li>' +
+                            '<li>Phone charges in another room during deep focus</li>' +
+                            '<li>The plan bends. Sleep does not.</li>' +
+                            '</ul></div>';
+                    } else {
+                        var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+                            'Sunday'
+                        ];
+                        output = '<div style="margin-bottom:16px;"><h4 style="font-size:15px;font-weight:700;margin-bottom:12px;">' +
+                            esc(first()) + '\'s week</h4>';
+                        tasks.forEach(function(task, i) {
+                            var day = days[i % days.length];
+                            var p = i < 2 ? 'Critical' : (i < 5 ? 'Important' : 'Flexible');
+                            var bg = p === 'Critical' ?
+                                'background:#4A6B3D20;color:#3A562F;' :
+                                p === 'Important' ?
+                                'background:#B8A97A20;color:#8A7B5A;' :
+                                'background:#6B8F5E20;color:#557348;';
+                            output += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding:10px 12px;background:white;border-radius:10px;border:2px solid var(--light-gray);">' +
+                                '<div style="width:70px;font-size:11px;font-weight:700;color:var(--gray);">' +
+                                day + '</div>' +
+                                '<div style="flex:1;font-size:13px;color:var(--dark);font-weight:500;">' +
+                                esc(task.trim()) + '</div>' +
+                                '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:12px;' +
+                                bg + '">' + p + '</span></div>';
+                        });
+                        output += '</div><div style="background:rgba(107,143,94,0.10);border-radius:12px;padding:14px;border:2px solid var(--secondary);">' +
+                            '<h5 style="font-weight:700;color:var(--secondary-dark);margin-bottom:8px;font-size:12px;">Priority matrix</h5>' +
+                            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;">' +
+                            '<div style="background:white;padding:10px;border-radius:10px;border:2px solid #4A6B3D40;"><span style="font-weight:700;color:var(--primary);">Do first</span><p style="color:var(--dark);margin-top:2px;">' +
+                            esc(tasks.slice(0, 2).join(', ')) + '</p></div>' +
+                            '<div style="background:white;padding:10px;border-radius:10px;border:2px solid #B8A97A40;"><span style="font-weight:700;color:var(--accent);">Schedule</span><p style="color:var(--dark);margin-top:2px;">' +
+                            esc(tasks.slice(2, 5).join(', ') || 'None') + '</p></div>' +
+                            '</div></div>';
+                    }
+                    document.getElementById('taskOutput').innerHTML = output;
+                    addActivity('Built a ' + timeframe + ' plan (' + tasks.length + ' tasks)', 'accent');
+                    updateStats('tasks', tasks.length);
+                    showToast(fresh('plan'));
+                }, 800 + Math.random() * 400);
+            };
+
+            function parseTime(ts) { var p = ts.split(':'); return parseInt(p[0]) * 60 + parseInt(p[1]); }
+
+            function formatTime(mins) {
+                var h = Math.floor(mins / 60) % 24,
+                    m = mins % 60;
+                return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+            }
+
+            window.generateResearch = function() {
+                var topic = (((document.getElementById('researchInput') || {}).value) || '').trim();
+                var depth = ((document.getElementById('researchDepth') || {}).value) || 'brief';
+                var focuses = Array.from(document.querySelectorAll('.research-focus:checked')).map(function(cb) { return cb
+                        .value; });
+                if (!topic) { showToast('Give me a topic first'); return; }
+                setLoading('researchOutput', 'Turning panic into a plan…');
+                setTimeout(function() {
+                    var detailed = depth === 'detailed';
+                    var out = '<div style="margin-bottom:16px;"><h2 style="font-size:17px;font-weight:700;color:var(--dark);">' +
+                        esc(topic) + '</h2>' +
+                        '<p style="font-size:11px;color:var(--gray);">' + (detailed ? 'Scholar mode' :
+                            'Survival mode') + ' · ' + new Date().toLocaleDateString() + '</p></div>';
+                    var sections = {
+                        trends: ['fa-arrow-trend-up', 'Trends', 'var(--primary)', [
+                            'Growing academic interest in ' + topic.toLowerCase(),
+                            'Interdisciplinary research spanning psychology, economics, and technology'
+                        ].concat(detailed ? ['Digital-first research methods gaining popularity'] : [])],
+                        challenges: ['fa-triangle-exclamation', 'Challenges', 'var(--primary-dark)', [
+                            'Information overload from multiple sources',
+                            'Access barriers to paywalled journals'
+                        ].concat(detailed ? ['Keeping up with evolving citation standards'] : [])],
+                        opportunities: ['fa-lightbulb', 'Opportunities', 'var(--secondary-dark)', [
+                            'Build a strong portfolio for job applications',
+                            'Turn research into side projects (blogs, podcasts)'
+                        ].concat(detailed ? ['Access undergraduate research grants'] : [])],
+                        recommendations: ['fa-thumbs-up', 'Recommendations', '#8B5CF6', [
+                            'Start with literature reviews and meta-analyses',
+                            'Use free tools like Google Scholar and ResearchGate',
+                            'Talk to your professor for unpublished insights'
+                        ]]
+                    };
+                    focuses.forEach(function(f) {
+                        var s = sections[f];
+                        if (!s) return;
+                        out += '<div style="background:white;border-radius:12px;padding:16px;border:2px solid var(--light-gray);margin-bottom:12px;">' +
+                            '<h3 style="font-weight:700;color:' + s[2] +
+                            ';margin-bottom:8px;font-size:13px;"><i class="fas ' + s[0] +
+                            '"></i> ' + s[1] + '</h3>' +
+                            '<ul style="font-size:13px;color:var(--dark);line-height:1.7;padding-left:16px;">' +
+                            s[3].map(function(li) { return '<li style="margin-bottom:2px;">' + esc(li) +
+                                '</li>'; }).join('') +
+                            '</ul></div>';
+                    });
+                    out += '<div style="background:var(--cream);border-radius:10px;padding:12px;border:2px solid var(--light-gray);margin-top:6px;">' +
+                        '<p style="font-size:11px;color:var(--gray);"><i class="fas fa-circle-info"></i> AI-generated summary — verify every claim against peer-reviewed sources. Search terms: "' +
+                        esc(topic) + '" systematic review · "' + esc(topic) + '" longitudinal study.</p></div>';
+                    document.getElementById('researchOutput').innerHTML = out;
+                    addActivity('Mapped research on "' + topic.substring(0, 30) + '…"', 'purple');
+                    updateStats('research');
+                    showToast(fresh('research'));
+                }, 1000 + Math.random() * 500);
+            };
+
+            // ===== CHAT =====
+            function addChatMessage(text, sender) {
+                var container = document.getElementById('chatMessages');
+                var isBot = sender === 'bot';
+                container.innerHTML += '<div class="chat-msg ' + sender + '">' +
+                    '<div class="avatar"><i class="fas ' + (isBot ? 'fa-robot' : 'fa-user') + '"></i></div>' +
+                    '<div class="bubble">' + text.replace(/\n/g, '<br>') + '</div></div>';
+                container.scrollTop = container.scrollHeight;
+            }
+
+            function getChatResponse(input) {
+                var lower = input.toLowerCase();
+                if (/balance|work and study|part.?time|job/.test(lower)) {
+                    return 'Ah, the classic juggling act, ' + first() + '. Three moves:\n1. <strong>Time-block your week</strong> — shifts and lectures are fixed; study fits in what is genuinely left\n2. <strong>Two deep-work blocks per module per week</strong> — treated like shifts you cannot skip\n3. <strong>Batch the admin</strong> — emails and prep into one 30-min slot, not bleeding across the day\nAnd if you are under 6 hours of sleep regularly — the schedule is the problem, not you.';
+                }
+                if (/panic|exam|midterm|prep|revis/.test(lower)) {
+                    return 'Breathe, ' + first() + '. Panic means you care. Here is the plan:\n1. List every topic from the syllabus — rate each 1-5 on confidence, be brutal\n2. <strong>70% of your time goes to the 1s and 2s</strong> — not the notes you already know\n3. <strong>Active recall</strong> — close everything, write what you remember, then check. Rereading is a warm hug that teaches nothing\n4. <strong>Space it</strong> — revisit each topic after 1, 3 and 7 days\n5. One full past paper, timed, before the real thing. Rehearsal beats hope.';
+                }
+                if (/procrastinat|focus|motivat|distract/.test(lower)) {
+                    return 'Plot twist: procrastination is usually task ambiguity, not laziness.\n- Shrink the task until the first step takes 2 minutes ("open the doc, write the title")\n- One 25/5 pomodoro. Just one. Momentum does the rest\n- Phone in another room — willpower loses to proximity, every time\n- Body-double: study next to someone, on campus or on a call. Accountability is a cheat code.';
+                }
+                if (/side project|project tips|portfolio/.test(lower)) {
+                    return 'Managing a side project while studying and working:\n1. <strong>Start small</strong> — 1-hour sprints, 3x per week beats 8-hour marathons\n2. <strong>Ship fast</strong> — MVP out in 2 weeks, then iterate\n3. <strong>No-code tools</strong> — save coding time with Notion, Figma, or Webflow\n4. <strong>Same day, same time</strong> every week — momentum loves routine\n5. <strong>Accountability buddy</strong> — share progress weekly.';
+                }
+                if (/cover letter|cv|resume|career/.test(lower)) {
+                    return 'How to write a cover letter that does not get binned in 6 seconds:\n1. <strong>Hook them early</strong> — start with why THIS role excites you\n2. <strong>Connect coursework to skills</strong> — "my Data Structures module taught me algorithmic thinking"\n3. <strong>Show side projects</strong> — link the GitHub, employers love self-starters\n4. <strong>One page. Always.</strong>\n5. End with a call to action — "I would love to discuss how I can contribute."';
+                }
+                if (/stress|anxiet|burn|overwhelm|tired|depress|sad/.test(lower)) {
+                    return 'Hey — that sounds genuinely heavy, and it happens to more students than anyone admits.\nRight now: pick ONE urgent thing, do 20 minutes, then take a real break away from screens.\nBigger picture: talk to your lecturer early about extensions — most would rather help than watch you drown.\nAnd the important bit: I am a study tool, not a counsellor. If this has been sitting on you for more than a couple of weeks, please reach your campus counselling service or a doctor. That is not weakness — that is strategy.';
+                }
+                if (/thank|nice|love|great|good job/.test(lower)) {
+                    return pick(['Anytime, ' + first() + '. Now go make the to-do list nervous.',
+                        'Now back to work — the deadlines are not going to fight themselves.',
+                        'That is what I am here for. One task. Twenty minutes. Go.'
+                    ]);
+                }
+                if (/hello|^hi\b|hey/.test(lower)) {
+                    return 'Hey ' + first() +
+                        '! I can help with study schedules, essay planning, time management, career prep, and balancing work with academics. What is on your mind?';
+                }
+                return 'Good question. Let us break it down:\n1. What exactly do you need to produce or understand?\n2. What is the real deadline, and how much time is genuinely left?\n3. What is a 10-minute first step?\nGive me the module, task or deadline and I will get specific. And double-check anything factual against your course material — I help, you verify.';
+            }
+
+            window.sendChat = function() {
+                var input = document.getElementById('chatInput');
+                if (!input) return;
+                var message = input.value.trim();
+                if (!message) return;
+                addChatMessage(esc(message), 'user');
+                input.value = '';
+                var container = document.getElementById('chatMessages');
+                var typingId = 'typing-' + Date.now();
+                container.innerHTML += '<div id="' + typingId + '" class="chat-msg bot" style="animation:none;">' +
+                    '<div class="avatar"><i class="fas fa-robot"></i></div>' +
+                    '<div class="bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div></div>';
+                container.scrollTop = container.scrollHeight;
+                setTimeout(function() {
+                    var t = document.getElementById(typingId);
+                    if (t) t.remove();
+                    addChatMessage(getChatResponse(message), 'bot');
+                    addActivity('Asked the tutor: "' + message.substring(0, 25) + '…"', 'secondary');
+                }, 800 + Math.random() * 600);
+            };
+
+            window.quickChat = function(message) {
+                var input = document.getElementById('chatInput');
+                if (input) input.value = message;
+                sendChat();
+            };
+
+            window.clearChat = function() {
+                var container = document.getElementById('chatMessages');
+                if (container) {
+                    container.innerHTML = '<div class="chat-msg bot"><div class="avatar"><i class="fas fa-robot"></i></div><div class="bubble">' +
+                        esc(tutorGreeting()).replace(/\n/g, '<br>') + '</div></div>';
+                }
+                showToast(fresh('clear'));
+            };
+
+            // ===== NAVIGATION =====
+            window.renderFeature = function(featureKey) {
+                currentFeature = featureKey;
+                navButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                    if (btn.dataset.feature === featureKey) btn.classList.add('active');
+                });
+                var html = '';
+                switch (featureKey) {
+                    case 'dashboard':
+                        html = renderDashboard();
+                        break;
+                    case 'email':
+                        html = renderEmail();
+                        break;
+                    case 'meeting':
+                        html = renderMeeting();
+                        break;
+                    case 'task':
+                        html = renderTask();
+                        break;
+                    case 'research':
+                        html = renderResearch();
+                        break;
+                    case 'chatbot':
+                        html = renderChatbot();
+                        break;
+                    default:
+                        html = renderDashboard();
+                }
+                panelContainer.innerHTML = html;
+                renderActivities();
+                if (window.innerWidth < 768) document.getElementById('sidebar').classList.remove('open');
+            };
+
+            navButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var feature = btn.dataset.feature;
+                    if (feature) renderFeature(feature);
+                });
+            });
+
+            // ===== SIDEBAR CLOSE ON CLICK OUTSIDE (MOBILE) =====
+            document.addEventListener('click', function(e) {
+                var sidebar = document.getElementById('sidebar');
+                var toggle = document.querySelector('.mobile-toggle');
+                if (window.innerWidth < 768 && sidebar.classList.contains('open')) {
+                    if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                        sidebar.classList.remove('open');
+                    }
+                }
+            });
+
+            // ===== INIT =====
+            updateProfileUI();
+            updateGreeting();
+            renderFeature('dashboard');
+
+            if (!userName) {
+                setTimeout(openProfileModal, 500);
+            } else if (!seenDisclaimer) {
+                setTimeout(showDisclaimer, 800);
+            }
+        })();
+    </script>
+
 </body>
 </html>
